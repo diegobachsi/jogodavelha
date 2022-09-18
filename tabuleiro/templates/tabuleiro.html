@@ -1,0 +1,239 @@
+{% extends 'inicio.html' %}
+
+{% load static %}
+
+{% load my_tags %}
+
+{% block title %}Filmes{% endblock %}
+
+{% block content %}
+
+  <style>
+
+    body{
+        padding: 0;
+        margin: 0;
+    }
+
+    .campo{
+        text-decoration: none;
+        padding: 25px;
+        color: rgb(86, 87, 86);
+        font-size: 50px;
+        width: 100%;
+    }
+
+    td:hover{
+        background-color: rgb(184, 247, 247);
+        color: blue;
+    }
+
+    .container{
+        text-align: center;
+        display: grid;
+        grid-template-columns: 40% 60%;
+    }
+
+    table{
+        text-align: center;
+    }
+
+    tr{
+        border-bottom: 7px solid #000;
+        padding: 30px;
+    }
+
+    .tr-sem-borda-bottom{
+        border: 0;
+        padding: 30px;
+    }
+
+    td{
+        border-left: 7px solid #000;
+        padding: 30px;
+    }
+
+    .td-sem-borda-left{
+        border: 0;
+        padding: 30px;
+    }
+
+    .ocultar{
+        visibility:hidden;
+    }
+
+    @media screen and (max-width: 1000px) {
+		
+		.container{
+		    display: grid;
+		    grid-template-columns: auto;
+		}
+
+        .jogadas{
+            margin-top: 50px;
+        }
+	}
+
+    </style>
+
+        {% if messages %}
+        
+            {% for message in messages %}
+                {% if forloop.first %}
+                    {% if message.tags == "error" %}
+                        <div class="alert alert-danger">
+                            {{ message }}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+        {% endif %}
+        
+        <div class="container mt-5">
+
+            <table>
+
+                {% if vencedor %}
+
+                        {% for linha in tabuleiro %}
+                            {% if forloop.last %}
+                                <tr class="tr-sem-borda-bottom">
+                                    {% for i in linha %}
+                                        {% if forloop.counter == 1 %}
+                                            <td class="td-sem-borda-left">
+                                                {% if not i|is_numeric %}
+                                                    <span class="campo">{{ i }}</span>
+                                                {% else %}
+                                                    <span class="ocultar">{{ i }}</span>
+                                                {% endif %}
+                                            </td>
+                                        {% else %}
+                                            <td>
+                                                {% if not i|is_numeric %}
+                                                    <span class="campo">{{ i }}</span>
+                                                {% else %}
+                                                    <span class="ocultar">{{ i }}</span>
+                                                {% endif %}
+                                            </td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    {% for i in linha %}
+                                        {% if forloop.counter == 1 %}
+                                            <td class="td-sem-borda-left">
+                                                {% if not i|is_numeric %}
+                                                    <span class="campo">{{ i }}</span>
+                                                {% else %}
+                                                    <span class="ocultar">{{ i }}</span>
+                                                {% endif %}
+                                            </td>
+                                        {% else %}
+                                            <td>
+                                                {% if not i|is_numeric %}
+                                                    <span class="campo">{{ i }}</span>
+                                                {% else %}
+                                                    <span class="ocultar">{{ i }}</span>
+                                                {% endif %}
+                                            </td>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                            
+                {% else %}
+
+                    {% for linha in tabuleiro %}
+                        {% if forloop.last %}
+                            <tr class="tr-sem-borda-bottom">
+                                {% for i in linha %}
+                                    {% if forloop.counter == 1 %}
+                                        <td class="td-sem-borda-left">
+                                            {% if not i|is_numeric %}
+                                                <span class="campo">{{ i }}</span>
+                                            {% else %}
+                                            <a id="link-campo" class="campo" href="{% url 'tabuleiro:jogada' i jogo simbolo %}">
+                                                <span class="ocultar">{{ i }}</span>
+                                            </a>
+                                            {% endif %}
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            {% if not i|is_numeric %}
+                                                <span class="campo">{{ i }}</span>
+                                            {% else %}
+                                            <a id="link-campo" class="campo" href="{% url 'tabuleiro:jogada' i jogo simbolo %}">
+                                                <span class="ocultar">{{ i }}</span>
+                                            </a>
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% else %}
+                            <tr>
+                                {% for i in linha %}
+                                    {% if forloop.counter == 1 %}
+                                        <td class="td-sem-borda-left">
+                                            {% if not i|is_numeric %}
+                                                <span class="campo">{{ i }}</span>
+                                            {% else %}
+                                            <a id="link-campo" class="campo" href="{% url 'tabuleiro:jogada' i jogo simbolo %}">
+                                                <span class="ocultar">{{ i }}</span>
+                                            </a>
+                                            {% endif %}
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            {% if not i|is_numeric %}
+                                                <span class="campo">{{ i }}</span>
+                                            {% else %}
+                                            <a id="link-campo" class="campo" href="{% url 'tabuleiro:jogada' i jogo simbolo %}">
+                                                <span class="ocultar">{{ i }}</span>
+                                            </a>
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </table>
+
+            <div class="jogadas">
+                <h3>[Jogadas]</h3>
+                {% for linha in tabuleiro %}
+                    {% if forloop.counter == 1 %}
+                        {% for i in linha %}
+                            {% if not i|is_numeric %}
+                                <p><b>{{ i }}</b>: Linha 1, Coluna {{ forloop.counter }} </p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if forloop.counter == 2 %}
+                        {% for i in linha %}
+                            {% if not i|is_numeric %}
+                                <p><b>{{ i }}</b>: Linha 2, Coluna {{ forloop.counter }} </p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    {% if forloop.counter == 3 %}
+                        {% for i in linha %}
+                            {% if not i|is_numeric %}
+                                <p><b>{{ i }}</b>: Linha 3, Coluna {{ forloop.counter }} </p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        
+{% endblock %}
