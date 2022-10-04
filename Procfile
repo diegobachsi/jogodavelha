@@ -1,1 +1,1 @@
-web: gunicorn estudos.wsgi --log-file -
+web: gunicorn jogodavelha.wsgi --log-file -
