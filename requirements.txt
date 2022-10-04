@@ -1,5 +1,4 @@
 django
-gunicorn
 whitenoise
 
 
