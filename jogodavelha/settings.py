@@ -13,6 +13,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+from django.db.backends.mysql.base import DatabaseWrapper
+
+DatabaseWrapper.data_types['DateTimeField'] = 'datetime' # fix for MySQL 5.5
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
