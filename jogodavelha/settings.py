@@ -78,11 +78,17 @@ WSGI_APPLICATION = 'jogodavelha.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'heroku_e7f5f1e97d6491c',
+        'USER': 'b04b3899b228a0',
+        'PASSWORD': '5150b335',
+        'HOST': 'us-cdbr-east-02.cleardb.com', #or an IP Address that your DB is hosted on
+        'PORT': '3306',
+        'OPTIONS': {
+                'init_command': 'SET default_storage_engine=INNODB',
+            },
+        }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
