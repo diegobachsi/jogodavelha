@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+import dj_database_url
+from decouple import config
 
 from django.db.backends.mysql.base import DatabaseWrapper
 
@@ -80,18 +82,10 @@ WSGI_APPLICATION = 'jogodavelha.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+DATABASE_URL = 'postgresql://postgres:2e4Mj7hlAziLWs1dBEf6@containers-us-west-176.railway.app:7149/railway'
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'heroku_e7f5f1e97d6491c',
-        'USER': 'b04b3899b228a0',
-        'PASSWORD': '5150b335',
-        'HOST': 'us-cdbr-east-02.cleardb.com', #or an IP Address that your DB is hosted on
-        'PORT': '3306',
-        'OPTIONS': {
-                'init_command': 'SET default_storage_engine=INNODB',
-            },
-        }
+    'default': dj_database_url.config(default=DATABASE_URL)
 }
 
 # Password validation
